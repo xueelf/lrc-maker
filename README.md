@@ -4,10 +4,12 @@
 
 ## 截图
 
-![1](https://vip2.loli.io/2023/03/03/G8UHwpumzW13Evg.png)
-![2](https://vip2.loli.io/2023/03/03/5Ks4lgothW6qMYy.png)
-![3](https://vip2.loli.io/2023/03/03/PYWl2ihOrxtqXba.png)
-![4](https://vip2.loli.io/2023/03/03/9JLdc2VsGX8ORur.png)
+<div style="display: flex;">
+  <img width="200" src="https://vip2.loli.io/2023/03/03/G8UHwpumzW13Evg.png" />
+  <img width="200" src="https://vip2.loli.io/2023/03/03/5Ks4lgothW6qMYy.png" />
+  <img width="200" src="https://vip2.loli.io/2023/03/03/PYWl2ihOrxtqXba.png" />
+  <img width="200" src="https://vip2.loli.io/2023/03/03/9JLdc2VsGX8ORur.png" />
+</div>
 
 ## 快捷键
 
