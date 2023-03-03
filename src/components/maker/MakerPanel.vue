@@ -26,13 +26,15 @@ const uploadRef = ref<UploadInstance>();
 
 const lyricArray = computed((): string[] => state.raw_lyric.split('\n'));
 const lyric = computed((): string => {
-  const lyric = [];
+  const lyrics = [];
 
   for (let i = 0; i < state.timeAxis.length; i++) {
     const timeAxi = state.timeAxis[i];
-    lyric.push(timeAxi + lyricArray.value[i]);
+    const lyric = lyricArray.value[i];
+
+    lyrics.push(`${timeAxi} ${lyric}`);
   }
-  return lyric.join('\n');
+  return lyrics.join('\n');
 });
 
 onMounted(() => {
@@ -40,12 +42,18 @@ onMounted(() => {
 });
 
 const chooseMusic = (file: UploadFile) => {
+  if (state.music) {
+    state.raw_lyric = '';
+    localStorage.removeItem('raw_lyric');
+  }
   const url = window.URL.createObjectURL(<File>file.raw);
 
   state.filename = file.name;
   state.music = url;
   state.status = 'read';
+  state.activeName = 'raw';
 };
+
 const handleExceed: UploadProps['onExceed'] = (files) => {
   uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
@@ -69,6 +77,7 @@ const handleLyric = () => {
       musicRef.value!.volume = 0.2;
       musicRef.value!.play();
       state.status = 'making';
+      state.activeName = 'ripe';
       break;
 
     case 'making':
@@ -76,12 +85,14 @@ const handleLyric = () => {
 
       musicRef.value!.pause();
       state.status = 'paused';
+      state.activeName = 'raw';
       break;
     case 'paused':
       listenKeyboard();
 
       musicRef.value!.play();
       state.status = 'making';
+      state.activeName = 'ripe';
       break;
   }
 };
@@ -94,6 +105,7 @@ const stopMake = () => {
   musicRef.value!.currentTime = 0;
 
   state.status = 'read';
+  state.activeName = 'raw';
   state.timeAxis.length = 0;
 };
 
@@ -211,7 +223,7 @@ const listenKeyboard = () => {
         </template>
       </el-input>
 
-      <audio ref="musicRef" :src="state.music"></audio>
+      <audio ref="musicRef" :src="state.music" @ended="state.status = 'read'"></audio>
     </div>
 
     <div class="lyric">
@@ -219,11 +231,11 @@ const listenKeyboard = () => {
       <el-tabs v-model="state.activeName" class="mb-10">
 
         <el-tab-pane label="歌词" name="raw">
-          <el-input v-model="state.raw_lyric" :rows="10" type="textarea" placeholder="请输入歌词" @input="handleInputLyric" />
+          <el-input v-model="state.raw_lyric" :rows="14" type="textarea" placeholder="请输入歌词" @input="handleInputLyric" />
         </el-tab-pane>
 
         <el-tab-pane label="时间轴" name="ripe">
-          <el-input :value="lyric" :rows="10" type="textarea" readonly placeholder="暂无歌词" />
+          <el-input :value="lyric" :rows="14" type="textarea" readonly placeholder="暂无歌词" />
         </el-tab-pane>
 
       </el-tabs>

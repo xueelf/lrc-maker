@@ -40,8 +40,8 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "lrc-maker",
-        "width": 800,
+        "title": "LRC Maker",
+        "width": 500,
         "height": 600
       }
     ]
