@@ -5,10 +5,9 @@
 ## 截图
 
 <div style="display: flex;">
-  <img width="400" src="https://vip2.loli.io/2023/03/03/G8UHwpumzW13Evg.png" />
-  <img width="400" src="https://vip2.loli.io/2023/03/03/5Ks4lgothW6qMYy.png" />
-  <img width="400" src="https://vip2.loli.io/2023/03/03/PYWl2ihOrxtqXba.png" />
-  <img width="400" src="https://vip2.loli.io/2023/03/03/9JLdc2VsGX8ORur.png" />
+  <img width="400" src="https://vip2.loli.io/2023/03/03/vw9dIVgUzWiDGqO.png" />
+  <img width="400" src="https://vip2.loli.io/2023/03/03/A3xPbMw1aeDoK9m.png" />
+  <img width="400" src="https://vip2.loli.io/2023/03/03/vPxFnYuCALzMBZ3.png" />
 </div>
 
 ## 快捷键
