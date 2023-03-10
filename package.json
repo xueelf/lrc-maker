@@ -11,6 +11,7 @@
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",
     "element-plus": "^2.2.32",
+    "localforage": "^1.10.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {
