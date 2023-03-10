@@ -84,7 +84,7 @@ const handleMusic = (type: 'play' | 'stop' | 'rewind' | 'forward'): void => {
       audioRef.value.paused
         ? audioRef.value.play()
         : audioRef.value.pause()
-      ;
+        ;
       break;
     case 'stop':
       audioRef.value.pause();
@@ -101,8 +101,14 @@ const handleMusic = (type: 'play' | 'stop' | 'rewind' | 'forward'): void => {
   }
 };
 
+/**
+ * 获取当前歌曲播放时间
+ */
+const getCurrentTime = (): number => audioRef.value!.currentTime;
+
 defineExpose({
   handleMusic,
+  getCurrentTime,
 });
 
 onMounted(() => {

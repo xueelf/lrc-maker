@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import MakerPanel from './components/maker/MakerPanel.vue';
-// import MakerLyric from './components/maker/MakerLyric.vue';
+import MakerPanel from './components/Maker/MakerPanel.vue';
 </script>
 
 <template>
