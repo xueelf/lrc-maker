@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
 import { invoke } from '@tauri-apps/api/tauri';
-import { genFileId, ElMessage } from 'element-plus'
-import type { UploadInstance, UploadProps, UploadRawFile, UploadFile } from 'element-plus'
-// import MakerLyric from './makerLyric.vue';
+import { genFileId, ElMessage } from 'element-plus';
+import { ref, reactive, computed, onMounted } from 'vue';
+import type { UploadInstance, UploadProps, UploadRawFile, UploadFile } from 'element-plus';
+// import MakerLyric from '~/makerLyric.vue';
 
-const state = reactive<{
+interface MakerPanelState {
   music: string;
   filename: string;
   raw_lyric: string;
   timeAxis: string[];
   status: 'none' | 'read' | 'making' | 'paused';
   activeName: 'raw' | 'ripe';
-}>({
+}
+
+const state = reactive<MakerPanelState>({
   music: '',
   filename: '',
   raw_lyric: '',
@@ -54,7 +56,7 @@ const chooseMusic = (file: UploadFile) => {
   state.activeName = 'raw';
 };
 
-const handleExceed: UploadProps['onExceed'] = (files) => {
+const handleExceed: UploadProps['onExceed'] = files => {
   uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
@@ -111,8 +113,8 @@ const stopMake = () => {
 
 /**
  * 格式化数字
- * 
- * @param number 
+ *
+ * @param number
  */
 const formatNumber = (number: number): string => {
   const prefix = number >= 10 ? '' : '0';
@@ -121,7 +123,7 @@ const formatNumber = (number: number): string => {
 
 /**
  * 获取时间轴信息
- * 
+ *
  * @param time - 当前时间
  */
 const getTimeAxiInfo = (time: number) => {
@@ -146,7 +148,7 @@ const handleInputLyric = () => {
 
 /**
  * 时间轴控制
- * 
+ *
  * @param type - 上一行/下一行
  */
 const handleTimeAxis = (type: 'next' | 'previous') => {
@@ -170,7 +172,7 @@ const handleTimeAxis = (type: 'next' | 'previous') => {
 
 /**
  * 音乐进度控制
- * 
+ *
  * @param type - 快进/倒带
  */
 const handleMusic = (type: 'forward' | 'rewind') => {
@@ -190,7 +192,7 @@ const handleMusic = (type: 'forward' | 'rewind') => {
  * 监听快捷键
  */
 const listenKeyboard = () => {
-  document.onkeyup = (event) => {
+  document.onkeyup = event => {
     const { code } = event;
 
     switch (code) {
@@ -216,8 +218,15 @@ const listenKeyboard = () => {
     <div class="music">
       <el-input v-model="state.filename" placeholder="请选择歌曲" readonly>
         <template #append>
-          <el-upload ref="uploadRef" accept="audio/*" :show-file-list="false" :limit="1" :on-change="chooseMusic"
-            :on-exceed="handleExceed" :auto-upload="false">
+          <el-upload
+            ref="uploadRef"
+            accept="audio/*"
+            :show-file-list="false"
+            :limit="1"
+            :on-change="chooseMusic"
+            :on-exceed="handleExceed"
+            :auto-upload="false"
+          >
             <el-button type="primary">选择</el-button>
           </el-upload>
         </template>
@@ -227,17 +236,20 @@ const listenKeyboard = () => {
     </div>
 
     <div class="lyric">
-
       <el-tabs v-model="state.activeName" class="mb-10">
-
         <el-tab-pane label="歌词" name="raw">
-          <el-input v-model="state.raw_lyric" :rows="14" type="textarea" placeholder="请输入歌词" @input="handleInputLyric" />
+          <el-input
+            v-model="state.raw_lyric"
+            :rows="14"
+            type="textarea"
+            placeholder="请输入歌词"
+            @input="handleInputLyric"
+          />
         </el-tab-pane>
 
         <el-tab-pane label="时间轴" name="ripe">
           <el-input :value="lyric" :rows="14" type="textarea" readonly placeholder="暂无歌词" />
         </el-tab-pane>
-
       </el-tabs>
 
       <div class="overview">
@@ -256,11 +268,20 @@ const listenKeyboard = () => {
 
       <div>
         <el-button v-if="state.status === 'none'" type="primary" disabled>制作歌词</el-button>
-        <el-button v-if="state.status === 'read'" type="primary" @click="handleLyric">制作歌词</el-button>
-        <el-button v-else-if="state.status === 'making'" type="primary" @click="handleLyric">暂停</el-button>
+        <el-button v-if="state.status === 'read'" type="primary" @click="handleLyric"
+          >制作歌词</el-button
+        >
+        <el-button v-else-if="state.status === 'making'" type="primary" @click="handleLyric"
+          >暂停</el-button
+        >
         <template v-else-if="state.status === 'paused'">
           <el-button type="primary" @click="handleLyric">继续</el-button>
-          <el-popconfirm title="歌词将不会保存" confirm-button-text="确认" cancel-button-text="取消" @confirm="stopMake">
+          <el-popconfirm
+            title="歌词将不会保存"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            @confirm="stopMake"
+          >
             <template #reference>
               <el-button type="danger">终止</el-button>
             </template>
@@ -273,8 +294,5 @@ const listenKeyboard = () => {
 
 <style scoped lang="scss">
 .maker-panel-container {
-  .mb-10 {
-    margin-bottom: 10px;
-  }
 }
 </style>

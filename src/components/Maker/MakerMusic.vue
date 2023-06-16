@@ -2,7 +2,7 @@
 import localforage from 'localforage';
 import { ref, reactive, onMounted } from 'vue';
 import { ElMessage, genFileId } from 'element-plus';
-import type { UploadInstance, UploadProps, UploadRawFile, UploadFile } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile, UploadFile } from 'element-plus';
 
 interface MakerMusicState {
   /** 音乐 Base64 */
@@ -11,19 +11,16 @@ interface MakerMusicState {
   filename?: string;
 }
 
-const state = reactive<MakerMusicState>({
-
-});
-
+const state = reactive<MakerMusicState>({});
 const audioRef = ref<HTMLAudioElement | null>(null);
 const uploadRef = ref<UploadInstance | null>(null);
 
 /**
  * 覆盖前一个文件
- * 
+ *
  * @param files - 上传的文件列表
  */
-const handleExceed: UploadProps['onExceed'] = (files) => {
+const handleExceed: UploadProps['onExceed'] = files => {
   uploadRef.value!.clearFiles();
   const file = files[0] as UploadRawFile;
   file.uid = genFileId();
@@ -32,7 +29,7 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 
 /**
  * 文件转 base64
- * 
+ *
  * @param file - 音乐文件
  */
 const fileToBase64 = (file: File): Promise<string> => {
@@ -51,7 +48,7 @@ const fileToBase64 = (file: File): Promise<string> => {
 
 /**
  * 选取音乐
- * 
+ *
  * @param file - 音乐文件
  */
 const chooseMusic = async (file: UploadFile) => {
@@ -69,7 +66,7 @@ const chooseMusic = async (file: UploadFile) => {
 
 /**
  * 音乐进度控制
- * 
+ *
  * @param type - (播放/暂停)/停止/快进/倒带
  */
 const handleMusic = (type: 'play' | 'stop' | 'rewind' | 'forward'): void => {
@@ -81,10 +78,7 @@ const handleMusic = (type: 'play' | 'stop' | 'rewind' | 'forward'): void => {
 
   switch (type) {
     case 'play':
-      audioRef.value.paused
-        ? audioRef.value.play()
-        : audioRef.value.pause()
-        ;
+      audioRef.value.paused ? audioRef.value.play() : audioRef.value.pause();
       break;
     case 'stop':
       audioRef.value.pause();

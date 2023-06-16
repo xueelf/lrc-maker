@@ -3,12 +3,14 @@ import localforage from 'localforage';
 import { ElMessage } from 'element-plus';
 import { reactive, computed } from 'vue';
 
-type TimeAxisOptions = {
-  type: 'next';
-  time: number;
-} | {
-  type: 'previous';
-};
+type TimeAxisOptions =
+  | {
+      type: 'next';
+      time: number;
+    }
+  | {
+      type: 'previous';
+    };
 
 interface MakerLyricState {
   /** 歌词 */
@@ -25,7 +27,7 @@ const lyricArray = computed((): string[] => state.lyric.split('\n'));
 
 /**
  * 格式化数字
- * 
+ *
  * @param number - 自然数
  */
 const formatNumber = (number: number): string => {
@@ -35,7 +37,7 @@ const formatNumber = (number: number): string => {
 
 /**
  * 获取时间轴信息
- * 
+ *
  * @param time - 当前时间
  */
 const getTimeAxiInfo = (time: number) => {
@@ -53,7 +55,7 @@ const getTimeAxiInfo = (time: number) => {
 
 /**
  * 时间轴控制
- * 
+ *
  * @param options - 配置项
  */
 const handleTimeAxis = (options: TimeAxisOptions): void => {
@@ -112,5 +114,6 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.maker-lyric-container {}
+.maker-lyric-container {
+}
 </style>
