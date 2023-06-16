@@ -114,6 +114,5 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.maker-lyric-container {
-}
+.maker-lyric-container { }
 </style>

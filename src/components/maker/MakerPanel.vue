@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { invoke } from '@tauri-apps/api/tauri';
+import type { UploadInstance, UploadProps, UploadRawFile, UploadFile } from 'element-plus';
+
+import { save } from '@tauri-apps/api/dialog';
+import { writeTextFile } from '@tauri-apps/api/fs';
 import { genFileId, ElMessage } from 'element-plus';
 import { ref, reactive, computed, onMounted } from 'vue';
-import type { UploadInstance, UploadProps, UploadRawFile, UploadFile } from 'element-plus';
 // import MakerLyric from '~/makerLyric.vue';
 
 interface MakerPanelState {
@@ -211,6 +213,34 @@ const listenKeyboard = () => {
     }
   };
 };
+
+/**
+ * 保存歌词
+ */
+const saveLyric = async () => {
+  const filePath = await save({
+    filters: [
+      {
+        name: 'Lyric',
+        extensions: ['lrc'],
+      },
+      {
+        name: 'Text',
+        extensions: ['txt'],
+      },
+    ],
+  });
+
+  if (!filePath) {
+    return;
+  }
+  try {
+    await writeTextFile(filePath, lyric.value);
+    ElMessage.success('保存成功喵~');
+  } catch (error) {
+    ElMessage.error('保存失败惹 QAQ');
+  }
+};
 </script>
 
 <template>
@@ -268,6 +298,7 @@ const listenKeyboard = () => {
 
       <div>
         <el-button v-if="state.status === 'none'" type="primary" disabled>制作歌词</el-button>
+
         <el-button v-if="state.status === 'read'" type="primary" @click="handleLyric"
           >制作歌词</el-button
         >
@@ -287,12 +318,13 @@ const listenKeyboard = () => {
             </template>
           </el-popconfirm>
         </template>
+
+        <el-button v-if="lyric" type="primary" @click="saveLyric">保存</el-button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.maker-panel-container {
-}
+.maker-panel-container { }
 </style>
